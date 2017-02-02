@@ -58,7 +58,7 @@ def function(a1,w1,a2,w2,a3,w3,t):
 if __name__=='__main__':
     
     print("\n*** STEP 1 : IMPORTATION OF DATA ***\n")
-    importData("thickness-of-sea.xlsx")
+    mylist=importData("thickness-of-sea.xlsx")
     
     print("\n*** STEP 2 : OBSERVATIONS ***\n")
     # Transforms list into vector
@@ -76,8 +76,23 @@ if __name__=='__main__':
     w20=(2*math.pi)/(6)
     w30=(2*math.pi)/(12)
     
+    myTime=np.arange(obs.shape[0])
+    #print("vecteur temps : \n",myTime, "\n")
+    
     print("\n*** STEP 3 : REDUCED OBSERVATIONS ***\n")
-    redObs=obs-function(a10,w10,a20,w20,a30,w30)
+    redObs=np.zeros(obs.shape[0]).reshape(obs.shape[0],1)
+    for i in range(obs.shape[0]):
+        redObs[i]=obs[i]-function(a10,w10,a20,w20,a30,w30,myTime[i])
+        
+    print("vecteur obs réduites : \n",redObs, "\n")
+        
+
+
+
+
+
+
+
 
 
 
