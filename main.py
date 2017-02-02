@@ -73,17 +73,54 @@ def MC(datapath, a10, a20, a30, w10, w20, w30):
     nb=len(myVector)
     obs=myVector.reshape(nb,1)
     print("nb of observations : \n",nb, "\n")
-    print("vecteur myVector : \n",myVector, "\n")
-    print("vecteur obs : \n",obs, "\n")
+    #print("vecteur myVector : \n",myVector, "\n")
+    #print("vecteur obs : \n",obs, "\n")
     
     # Vector Time (per month)
     myTime=np.arange(obs.shape[0])
     #print("vecteur temps : \n",myTime, "\n")
     
     print("\n*** STEP 3 : REDUCED OBSERVATIONS ***\n")
-    
     redObs=ComputeReducedObs(obs, myTime, a10, a20, a30, w10, w20, w30)
     print("vecteur obs réduites : \n",redObs, "\n")
+    
+    print("\n*** STEP 4 : A ***\n")
+    
+    
+    
+    # Matrice de variance-covariance et matrice de poids
+    print("\n*** STEP 5 : WEIGHT MATRIX ***\n")
+#    MatriceVarCovar=1**2 * np.eye(nl)
+#    print("\nMatriceVarCovar =\n",MatriceVarCovar)
+#    MatricePoids=inv(MatriceVarCovar)
+#    print("\nMatricePoids =\n",MatricePoids)
+    
+    # Normal Matrix
+    print("\n*** STEP 6 : NORMAL MATRIX ***\n")
+#    MatriceNormale=np.dot(np.dot(A.T,MatricePoids),A)
+    
+    # Matricial Computing
+    print("\n*** STEP 7 : MATRICIAL COMPUTING ***\n")
+#    deltaXchap=inv(MatriceNormale).dot(A.T.dot(MatricePoids).dot(B))
+#    print("\ndeltaXchap =\n",deltaXchap)
+    
+    # Determination des parametres inconnus
+    print("\n*** STEP 8 : UNKNOWN PARAMETERS ***\n")
+#    VecteurParametres=deltaXchap+vecteurParametresInitiaux
+#    print("\nD'où les paramètres :\n",VecteurParametres)
+    
+    # Residuals determination 
+    print("\n*** STEP 9 : RESIDUAL DETERMINATION ***\n")
+#    vecteurResidus = B-np.dot(A,deltaXchap)
+#    print("\nD'où les résidus :\n",vecteurResidus)
+    
+    print("\n*** STEP 10 : PRECISION OF PARAMETERS ***\n")
+#    Qx = inv(np.dot(np.dot(A.T,MatricePoids),A))
+#    print("\nD'où Qx =\n",Qx)
+    
+    print("\n*** STEP 11 : PRECISION OF RESIDUALS ***\n")
+#    Qv = MatriceVarCovar-np.dot(np.dot(A,Qx),A.T)
+#    print("\nD'où Qv =\n",Qv)    
     
     
     
