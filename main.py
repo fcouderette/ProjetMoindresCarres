@@ -7,6 +7,7 @@ Created on Wed Dec 14 11:18:08 2016
 
 
 import numpy as np
+from numpy.linalg import inv
 import math
 from xlrd import open_workbook
 
@@ -62,6 +63,11 @@ def ComputeReducedObs(vectorObs, vectorTime, a10,a20,a30,w10,w20,w30):
     return redObs
     
 
+def computeVarCovarMatrix(prec, nl):
+    VarCovarMatrix=(1/(prec**2)) * np.eye(nl)
+    return VarCovarMatrix
+    
+
 
 def MC(datapath, a10, a20, a30, w10, w20, w30):
     print("\n*** STEP 1 : IMPORTATION OF DATA ***\n")
@@ -88,38 +94,38 @@ def MC(datapath, a10, a20, a30, w10, w20, w30):
     
     
     
-    # Matrice de variance-covariance et matrice de poids
+    # Variance-covariance matrix and weight matrix
     print("\n*** STEP 5 : WEIGHT MATRIX ***\n")
-#    MatriceVarCovar=1**2 * np.eye(nl)
-#    print("\nMatriceVarCovar =\n",MatriceVarCovar)
-#    MatricePoids=inv(MatriceVarCovar)
-#    print("\nMatricePoids =\n",MatricePoids)
+    VarCovarMatrix=computeVarCovarMatrix(0.05, obs.shape[0])
+    WeightMatrix=inv(VarCovarMatrix)
+    print("\nMatrice de poids =\n",WeightMatrix)
+
     
     # Normal Matrix
     print("\n*** STEP 6 : NORMAL MATRIX ***\n")
-#    MatriceNormale=np.dot(np.dot(A.T,MatricePoids),A)
+#    NormalMatrix=np.dot(np.dot(A.T,WeightMatrix),A)
     
     # Matricial Computing
     print("\n*** STEP 7 : MATRICIAL COMPUTING ***\n")
-#    deltaXchap=inv(MatriceNormale).dot(A.T.dot(MatricePoids).dot(B))
-#    print("\ndeltaXchap =\n",deltaXchap)
+#    deltaParameters=inv(NormalMatrix).dot(A.T.dot(WeightMatrix).dot(B))
+#    print("\nParametres inconnus delta =\n",deltaParameters)
     
     # Determination des parametres inconnus
     print("\n*** STEP 8 : UNKNOWN PARAMETERS ***\n")
-#    VecteurParametres=deltaXchap+vecteurParametresInitiaux
-#    print("\nD'où les paramètres :\n",VecteurParametres)
+#    vectorParameters=deltaParameters+vectorInitialParameters
+#    print("\nD'où les paramètres :\n",vectorParameters)
     
     # Residuals determination 
     print("\n*** STEP 9 : RESIDUAL DETERMINATION ***\n")
-#    vecteurResidus = B-np.dot(A,deltaXchap)
-#    print("\nD'où les résidus :\n",vecteurResidus)
+#    vectorResiduals = B-np.dot(A,deltaParameters)
+#    print("\nD'où les résidus :\n",vectorResiduals)
     
     print("\n*** STEP 10 : PRECISION OF PARAMETERS ***\n")
-#    Qx = inv(np.dot(np.dot(A.T,MatricePoids),A))
+#    Qx = inv(np.dot(np.dot(A.T,WeightMatrix),A))
 #    print("\nD'où Qx =\n",Qx)
     
     print("\n*** STEP 11 : PRECISION OF RESIDUALS ***\n")
-#    Qv = MatriceVarCovar-np.dot(np.dot(A,Qx),A.T)
+#    Qv = VarCovarMatrix-np.dot(np.dot(A,Qx),A.T)
 #    print("\nD'où Qv =\n",Qv)    
     
     
