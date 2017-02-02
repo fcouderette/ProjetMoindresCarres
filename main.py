@@ -53,12 +53,19 @@ def function(a1,w1,a2,w2,a3,w3,t):
     member3=a1*math.sin(w1*t) + a3*math.cos(w3*t)
     f=member1+member2+member3
     return f
-
-
-if __name__=='__main__':
     
+    
+def ComputeReducedObs(vectorObs, vectorTime, a10,a20,a30,w10,w20,w30):
+    redObs=np.zeros(vectorObs.shape[0]).reshape(vectorObs.shape[0],1)
+    for i in range(vectorObs.shape[0]):
+        redObs[i]=vectorObs[i]-function(a10,w10,a20,w20,a30,w30,vectorTime[i])
+    return redObs
+    
+
+
+def MC(datapath, a10, a20, a30, w10, w20, w30):
     print("\n*** STEP 1 : IMPORTATION OF DATA ***\n")
-    mylist=importData("thickness-of-sea.xlsx")
+    mylist=importData(datapath)
     
     print("\n*** STEP 2 : OBSERVATIONS ***\n")
     # Transforms list into vector
@@ -69,6 +76,26 @@ if __name__=='__main__':
     print("vecteur myVector : \n",myVector, "\n")
     print("vecteur obs : \n",obs, "\n")
     
+    # Vector Time (per month)
+    myTime=np.arange(obs.shape[0])
+    #print("vecteur temps : \n",myTime, "\n")
+    
+    print("\n*** STEP 3 : REDUCED OBSERVATIONS ***\n")
+    
+    redObs=ComputeReducedObs(obs, myTime, a10, a20, a30, w10, w20, w30)
+    print("vecteur obs réduites : \n",redObs, "\n")
+    
+    
+    
+    
+    #return vectorParameters, vectorResiduals, Qx, Qv
+    
+
+
+
+
+if __name__=='__main__':
+    
     a10=2
     a20=2
     a30=2
@@ -76,15 +103,9 @@ if __name__=='__main__':
     w20=(2*math.pi)/(6)
     w30=(2*math.pi)/(12)
     
-    myTime=np.arange(obs.shape[0])
-    #print("vecteur temps : \n",myTime, "\n")
+    MC("thickness-of-sea.xlsx", a10, a20, a30, w10, w20, w30)
     
-    print("\n*** STEP 3 : REDUCED OBSERVATIONS ***\n")
-    redObs=np.zeros(obs.shape[0]).reshape(obs.shape[0],1)
-    for i in range(obs.shape[0]):
-        redObs[i]=obs[i]-function(a10,w10,a20,w20,a30,w30,myTime[i])
-        
-    print("vecteur obs réduites : \n",redObs, "\n")
+    
         
 
 
