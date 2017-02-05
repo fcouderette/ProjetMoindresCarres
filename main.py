@@ -67,11 +67,25 @@ def computeVarCovarMatrix(prec, nl):
     VarCovarMatrix=(1/(prec**2)) * np.eye(nl)
     return VarCovarMatrix
     
+def computeAmatrix(vectorObs, vectorTime, nb_param,  a10,a20,a30,w10,w20,w30):
+    A = np.ones((vectorTime.shape[0],nb_param))
+    for i in range (vectorTime.shape[0]):
+        A[i][0] = np.sin(w10*vectorTime[i])+np.cos(w10*vectorTime[i])
+        A[i][1] = a10*w10*np.cos(w10*vectorTime[i])-a10*w10*np.sin(w10*vectorTime[i])
+        A[i][2] = np.sin(w20*vectorTime[i])+np.cos(w20*vectorTime[i])
+        A[i][3] = a20*w20*np.cos(w20*vectorTime[i])-a20*w20*np.sin(w20*vectorTime[i])
+        A[i][4] = np.sin(w30*vectorTime[i])+np.cos(w30*vectorTime[i])
+        A[i][5] = a30*w30*np.cos(w30*vectorTime[i])-a30*w30*np.sin(w30*vectorTime[i])
+    print("\nA =\n",A)
+    return A
+    
+    
 
 
 def MC(datapath, a10, a20, a30, w10, w20, w30):
     print("\n*** STEP 1 : IMPORTATION OF DATA ***\n")
     mylist=importData(datapath)
+    nbUnknown=6
     
     print("\n*** STEP 2 : OBSERVATIONS ***\n")
     # Transforms list into vector
@@ -91,6 +105,7 @@ def MC(datapath, a10, a20, a30, w10, w20, w30):
     print("vecteur obs réduites : \n",redObs, "\n")
     
     print("\n*** STEP 4 : A ***\n")
+    A=computeAmatrix(obs, myTime, nbUnknown, a10,a20,a30,w10,w20,w30)
     
     
     
@@ -98,22 +113,23 @@ def MC(datapath, a10, a20, a30, w10, w20, w30):
     print("\n*** STEP 5 : WEIGHT MATRIX ***\n")
     VarCovarMatrix=computeVarCovarMatrix(0.05, obs.shape[0])
     WeightMatrix=inv(VarCovarMatrix)
-    print("\nMatrice de poids =\n",WeightMatrix)
+    print("\nWeight Matrix =\n",WeightMatrix)
 
     
     # Normal Matrix
     print("\n*** STEP 6 : NORMAL MATRIX ***\n")
-#    NormalMatrix=np.dot(np.dot(A.T,WeightMatrix),A)
+    NormalMatrix=np.dot(np.dot(A.T,WeightMatrix),A)
+    print("\nNormal Matrix =\n",NormalMatrix)
     
     # Matricial Computing
     print("\n*** STEP 7 : MATRICIAL COMPUTING ***\n")
-#    deltaParameters=inv(NormalMatrix).dot(A.T.dot(WeightMatrix).dot(B))
-#    print("\nParametres inconnus delta =\n",deltaParameters)
+    deltaParameters=inv(NormalMatrix).dot(A.T.dot(WeightMatrix).dot(redObs))
+    print("\nUnknown delta parameters =\n",deltaParameters)
     
     # Determination des parametres inconnus
     print("\n*** STEP 8 : UNKNOWN PARAMETERS ***\n")
-#    vectorParameters=deltaParameters+vectorInitialParameters
-#    print("\nD'où les paramètres :\n",vectorParameters)
+    vectorParameters=deltaParameters+np.array([a10,a20,a30,w10,w20,w30]).reshape(nbUnknown,1)
+    print("\nD'où les paramètres :\n",vectorParameters)
     
     # Residuals determination 
     print("\n*** STEP 9 : RESIDUAL DETERMINATION ***\n")
@@ -131,7 +147,7 @@ def MC(datapath, a10, a20, a30, w10, w20, w30):
     
     
     
-    #return vectorParameters, vectorResiduals, Qx, Qv
+    return vectorParameters, #vectorResiduals, Qx, Qv
     
 
 
@@ -146,7 +162,7 @@ if __name__=='__main__':
     w20=(2*math.pi)/(6)
     w30=(2*math.pi)/(12)
     
-    MC("thickness-of-sea.xlsx", a10, a20, a30, w10, w20, w30)
+    res=MC("thickness-of-sea.xlsx", a10, a20, a30, w10, w20, w30)
     
     
         
