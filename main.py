@@ -133,16 +133,16 @@ def MC(datapath, a10, a20, a30, w10, w20, w30):
     
     # Residuals determination 
     print("\n*** STEP 9 : RESIDUAL DETERMINATION ***\n")
-#    vectorResiduals = B-np.dot(A,deltaParameters)
-#    print("\nD'où les résidus :\n",vectorResiduals)
+    vectorResiduals = redObs-np.dot(A,deltaParameters)
+    print("\nD'où les résidus :\n",vectorResiduals)
     
     print("\n*** STEP 10 : PRECISION OF PARAMETERS ***\n")
-#    Qx = inv(np.dot(np.dot(A.T,WeightMatrix),A))
-#    print("\nD'où Qx =\n",Qx)
+    Qx = inv(np.dot(np.dot(A.T,WeightMatrix),A))
+    print("\nD'où Qx =\n",Qx)
     
     print("\n*** STEP 11 : PRECISION OF RESIDUALS ***\n")
-#    Qv = VarCovarMatrix-np.dot(np.dot(A,Qx),A.T)
-#    print("\nD'où Qv =\n",Qv)    
+    Qv = VarCovarMatrix-np.dot(np.dot(A,Qx),A.T)
+    print("\nD'où Qv =\n",Qv)    
     
     
     

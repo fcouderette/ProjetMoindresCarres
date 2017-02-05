@@ -35,6 +35,9 @@ w3=myRes[5]
 
 y = f(a1,w1,a2,w2,a3,w3,myTime)
 plt.plot(myTime, y)
+plt.ylabel('ice thickness (m)')
+plt.xlabel("time (per month)")
+plt.savefig('modeled_thickness.png')
 
 
 
