@@ -20,9 +20,17 @@ def f(a1,w1,a2,w2,a3,w3,t):
 
 myTime=np.arange(233)
 
-res=main.MC("thickness-of-sea.xlsx", a10, a20, a30, w10, w20, w30)
-myRes=res[0]
-print('res = ',res[0])
+a10=0.5
+a20=0.5
+a30=0.5
+w10=(2*math.pi)/(6*12)#(2*math.pi)/(6*12)
+w20=(2*math.pi)/(12)#(2*math.pi)/(6)
+w30=(2*math.pi)/(6)#(2*math.pi)/(12)
+
+obs,res=main.MC("thickness-of-sea.xlsx", a10, a20, a30, w10, w20, w30)
+myRes=res #[0]
+#print('res = ',res)
+#print('obs = ',obs)
 
 a1=myRes[0]
 w1=myRes[1]
@@ -34,10 +42,19 @@ w3=myRes[5]
 
 
 y = f(a1,w1,a2,w2,a3,w3,myTime)
-plt.plot(myTime, y)
+
+plt.figure()
+plt.plot(myTime, y, 'r', label='modeled thickness')
+plt.plot(myTime, obs, 'b', label='theoric thickness')
+plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 plt.ylabel('ice thickness (m)')
 plt.xlabel("time (per month)")
+
+
+
+
 plt.savefig('modeled_thickness.png')
+
 
 
 

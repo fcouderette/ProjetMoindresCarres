@@ -147,7 +147,7 @@ def MC(datapath, a10, a20, a30, w10, w20, w30):
     
     
     
-    return vectorParameters, #vectorResiduals, Qx, Qv
+    return obs,vectorParameters #vectorResiduals, Qx, Qv
     
 
 
