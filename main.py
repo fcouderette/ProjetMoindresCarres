@@ -52,7 +52,7 @@ def function(a1,w1,a2,w2,a3,w3,t):
     member1=a1*math.sin(w1*t) + a1*math.cos(w1*t)
     member2=a1*math.sin(w1*t) + a2*math.cos(w2*t)
     member3=a1*math.sin(w1*t) + a3*math.cos(w3*t)
-    f=member1+member2+member3
+    f=member1+member2+member3+3
     return f
     
     
