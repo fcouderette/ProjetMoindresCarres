@@ -32,10 +32,10 @@ def f(a1,a2,w,a3,t):
 # 0.005*x+100*sin(x/50)/(x)-6.5
 # a1*x+a2*(sin((x/w))/x)+a3
 
-a10=0.0001
-a20=3000
-w=200
-a30=-6.5
+a10=0.00015
+a20=-71.87 #3000
+w=187.17 #200
+a30=-6 #-6.5
 
 obs,res=main2.MC("ground-temperature-in-permafrost.xlsx", a10, a20,a30, w)
 myRes=res #[0]
